@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小品每周观察 - 2026-08-31</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blue: #1A5276; --blue-dark: #0D3B5E; --blue-light: #D4E6F1;
+  --blue-ultra-light: #EBF5FB; --bg: #F2F6FA; --card-bg: #FFFFFF;
+  --text: #1C2833; --text-secondary: #566573; --text-muted: #99A3A4;
+  --border: #D5D8DC; --shadow: 0 2px 16px rgba(26,82,118,0.10);
+  --shadow-hover: 0 8px 30px rgba(26,82,118,0.20);
+  --radius: 16px; --radius-sm: 8px;
+  --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+  --font: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+}
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.7; min-height: 100vh; }
+.hero { background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 30%, #2471A3 60%, #2E86C1 100%); padding: 48px 20px 40px; text-align: center; position: relative; overflow: hidden; }
+.hero::before { content:''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 25% 40%, rgba(255,255,255,0.12) 0%, transparent 50%), radial-gradient(circle at 75% 60%, rgba(255,255,255,0.08) 0%, transparent 50%); animation: shimmer 10s ease-in-out infinite; }
+@keyframes shimmer { 0%,100% { transform: translate(0,0); } 50% { transform: translate(1.5%,0.8%); } }
+.hero-content { position: relative; z-index: 1; }
+.hero h1 { font-size: 2.4em; font-weight: 800; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,0.2); letter-spacing: 3px; margin-bottom: 8px; }
+.hero .subtitle { font-size: 1.0em; color: rgba(255,255,255,0.88); font-weight: 500; letter-spacing: 1px; }
+.hero .date-badge { display: inline-block; margin-top: 14px; background: rgba(255,255,255,0.9); color: var(--blue); padding: 5px 20px; border-radius: 20px; font-size: 0.92em; font-weight: 600; backdrop-filter: blur(6px); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.stats-bar { display: flex; justify-content: center; gap: 40px; padding: 20px 20px; background: var(--card-bg); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.stat-item { text-align: center; }
+.stat-num { font-size: 1.6em; font-weight: 700; color: var(--blue); }
+.stat-label { font-size: 0.82em; color: var(--text-muted); margin-top: 3px; }
+.tag-filter-bar { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 24px; justify-content: center; background: var(--card-bg); border-bottom: 1px solid var(--border); }
+.tag-filter { padding: 5px 15px; border-radius: 16px; font-size: 0.82em; font-weight: 500; cursor: pointer; border: 1.5px solid var(--border); background: #fff; color: var(--text-secondary); transition: var(--transition); user-select: none; }
+.tag-filter:hover { border-color: var(--blue); color: var(--blue-dark); background: var(--blue-ultra-light); }
+.tag-filter.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.tag-filter .count { margin-left: 4px; opacity: 0.7; font-size: 0.85em; }
+.container { max-width: 1100px; margin: 0 auto; padding: 28px 20px 48px; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(460px, 1fr)); gap: 20px; }
+.card { background: var(--card-bg); border-radius: var(--radius); padding: 0; box-shadow: var(--shadow); border: 1px solid var(--border); transition: var(--transition); display: flex; flex-direction: column; overflow: hidden; }
+.card:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); border-color: var(--blue); }
+.card.hidden { display: none; }
+.card-header { display: flex; align-items: center; gap: 14px; padding: 18px 22px; background: linear-gradient(135deg, var(--blue-ultra-light) 0%, #FFFFFF 100%); border-bottom: 1.5px solid var(--blue-light); }
+.section-badge { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--blue-dark)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1em; font-weight: 700; flex-shrink: 0; box-shadow: 0 2px 8px rgba(26,82,118,0.25); }
+.section-info { flex: 1; display: flex; align-items: center; gap: 8px; }
+.section-icon { font-size: 1.3em; }
+.section-title { font-size: 1.1em; font-weight: 700; color: var(--blue-dark); letter-spacing: 0.5px; }
+.card-body { padding: 20px 22px 22px; }
+.item-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 10px; font-size: 0.73em; font-weight: 600; letter-spacing: 0.3px; }
+.tag-us-china { background: #E8EAF6; color: #283593; }
+.tag-geopolitics { background: #FCE4EC; color: #C62828; }
+.tag-cooperation { background: #E0F2F1; color: #00695C; }
+.tag-economy { background: #FFF3E0; color: #E65100; }
+.tag-governance { background: #E3F2FD; color: #1565C0; }
+.tag-thinktank { background: #F3E5F5; color: #7B1FA2; }
+.tag-diplomacy { background: #E8F5E9; color: #2E7D32; }
+.tag-europe { background: #ECEFF1; color: #37474F; }
+.tag-indopacific { background: #E0F7FA; color: #00838F; }
+.tag-bri { background: #FFF8E1; color: #F9A825; }
+.tag-climate { background: #FFEBEE; color: #B71C1C; }
+.tag-default { background: #F5F5F5; color: #737373; }
+.item-title { font-size: 1.0em; font-weight: 600; color: var(--text); margin-bottom: 8px; line-height: 1.55; }
+.item-summary { font-size: 0.9em; color: var(--text-secondary); line-height: 1.75; margin-bottom: 14px; text-align: justify; }
+.item-meta { display: flex; align-items: center; justify-content: space-between; font-size: 0.8em; color: var(--text-muted); }
+.item-source { display: flex; align-items: center; gap: 6px; }
+.source-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue-light); flex-shrink: 0; }
+.item-link { color: var(--blue); text-decoration: none; font-weight: 600; font-size: 0.88em; padding: 5px 12px; border-radius: var(--radius-sm); border: 1.5px solid var(--blue); transition: var(--transition); white-space: nowrap; }
+.item-link:hover { background: var(--blue); color: #fff; }
+.sources-block { margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--blue-light); }
+.sources-block-label { font-size: 0.78em; font-weight: 700; color: var(--blue); margin-bottom: 10px; letter-spacing: 0.5px; }
+.sources-list { display: flex; flex-direction: column; gap: 7px; }
+.source-row { display: flex; align-items: baseline; gap: 6px; font-size: 0.82em; line-height: 1.5; flex-wrap: wrap; }
+.source-bullet { width: 6px; height: 6px; border-radius: 50%; background: var(--blue-light); flex-shrink: 0; align-self: center; }
+.source-label { color: var(--text-muted); font-weight: 600; flex-shrink: 0; }
+.source-link { color: var(--blue-dark); text-decoration: none; border-bottom: 1px solid var(--blue-light); transition: var(--transition); }
+.source-link:hover { color: var(--blue); border-bottom-color: var(--blue); }
+.source-date { color: var(--text-muted); font-size: 0.85em; flex-shrink: 0; }
+.footer { text-align: center; padding: 28px 20px; color: var(--text-muted); font-size: 0.84em; border-top: 1px solid var(--border); margin-top: 10px; background: var(--card-bg); }
+.footer .brand { color: var(--blue); font-weight: 600; }
+@media (max-width: 640px) {
+  .hero h1 { font-size: 1.6em; letter-spacing: 1px; }
+  .hero .subtitle { font-size: 0.88em; }
+  .card-grid { grid-template-columns: 1fr; }
+  .stats-bar { gap: 20px; }
+  .stat-num { font-size: 1.3em; }
+  .card-header { padding: 14px 16px; }
+  .card-body { padding: 16px 16px 18px; }
+  .section-badge { width: 36px; height: 36px; font-size: 0.95em; }
+  .section-title { font-size: 1.0em; }
+}
+@media (min-width: 641px) { .card:nth-child(7):last-child { grid-column: 1 / -1; max-width: 560px; justify-self: center; } }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-content">
+    <h1>📋 小品每周观察</h1>
+    <p class="subtitle">中国 · 亚洲 · 世界 — 权威观点精选</p>
+    <span class="date-badge">📅 2026年08月24日 - 08月31日</span>
+  </div>
+</header>
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">核心板块</div></div>
+  <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">精选观点</div></div>
+  <div class="stat-item"><div class="stat-num">40+</div><div class="stat-label">权威来源</div></div>
+</div>
+<div class="tag-filter-bar" id="tagFilterBar">
+  <span class="tag-filter active" data-tag="all">全部<span class="count">8</span></span>
+  <span class="tag-filter" data-tag="中美关系">#中美关系</span>
+  <span class="tag-filter" data-tag="战略竞争">#战略竞争</span>
+  <span class="tag-filter" data-tag="智库研判">#智库研判</span>
+  <span class="tag-filter" data-tag="地缘政治">#地缘政治</span>
+  <span class="tag-filter" data-tag="半岛局势">#半岛局势</span>
+  <span class="tag-filter" data-tag="东北亚">#东北亚</span>
+  <span class="tag-filter" data-tag="东盟">#东盟</span>
+  <span class="tag-filter" data-tag="区域合作">#区域合作</span>
+  <span class="tag-filter" data-tag="RCEP">#RCEP</span>
+  <span class="tag-filter" data-tag="上合组织">#上合组织</span>
+  <span class="tag-filter" data-tag="中亚">#中亚</span>
+  <span class="tag-filter" data-tag="阿富汗">#阿富汗</span>
+  <span class="tag-filter" data-tag="欧美关系">#欧美关系</span>
+  <span class="tag-filter" data-tag="欧盟">#欧盟</span>
+  <span class="tag-filter" data-tag="对华研判">#对华研判</span>
+  <span class="tag-filter" data-tag="全球经济">#全球经济</span>
+  <span class="tag-filter" data-tag="产业链">#产业链</span>
+  <span class="tag-filter" data-tag="供应链">#供应链</span>
+  <span class="tag-filter" data-tag="全球治理">#全球治理</span>
+  <span class="tag-filter" data-tag="四大倡议">#四大倡议</span>
+  <span class="tag-filter" data-tag="一带一路">#一带一路</span>
+  <span class="tag-filter" data-tag="金砖">#金砖</span>
+  <span class="tag-filter" data-tag="全球南方">#全球南方</span>
+  <span class="tag-filter" data-tag="气候变化">#气候变化</span>
+</div>
+<main class="container">
+  <div class="card-grid" id="cardGrid">
+
+    <!-- 板块1 中美战略核心观点 -->
+    <div class="card" data-tags="中美关系,战略竞争,智库研判" tabindex="0">
+      <div class="card-header">
+        <div class="section-badge">01</div>
+        <div class="section-info"><span class="section-icon">🌐</span><span class="section-title">中美战略核心观点</span></div>
+      </div>
+      <div class="card-body">
+        <div class="item-tags">
+          <span class="tag tag-us-china">#中美关系</span>
+          <span class="tag tag-us-china">#战略竞争</span>
+          <span class="tag tag-thinktank">#智库研判</span>
+        </div>
+        <div class="item-title">中美1.5轨对话再启，专家研判"先抑后扬、走向稳定"但结构性竞争犹存</div>
+        <div class="item-summary">
+          8月25日，第三届中美1.5轨对话在北京举行，主题为"建设性战略稳定——新时代中美务实合作"，由中联部与美国亚洲协会共同主办，<b>陆克文、桑顿</b>等约40名政商学界人士出席。此前8月24日，<b>王沪宁</b>会见美方代表，重申落实两国元首共识、构建中美建设性战略稳定关系。<b>北京大学贾庆国</b>将当前关系概括为"先抑后扬、走向稳定"，认为双方均以"建设性战略稳定"为目标，但面临冲突管控的现实挑战。<b>人大重阳王文</b>评价1.5轨对话是管控分歧的"缓冲机制"与"认知桥梁"，释放"不脱钩、不断联、持续沟通"的信号，但结构性竞争仍是长期常态。美学者<b>吴国</b>提出美对华政策更接近"防御性现实主义"而非"新冷战"，重点是危机沟通与避免误判。与此同时，美方以伊朗次级制裁施压中国银行，<b>王毅</b>8月26日会见美国驻华大使庞德伟，为习近平9月访美做准备。多方分析认为，双方均有避免关系失控的意愿，但第三方战争外溢与制裁仍是主要风险变量。
+        </div>
+        <div class="sources-block">
+          <div class="sources-block-label">📎 可靠来源（按引用顺序）</div>
+          <div class="sources-list">
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">人民日报：</span><a class="source-link" href="http://cpc.people.com.cn/BIG5/n1/2026/0826/c64387-40786224.html" target="_blank" rel="noopener">落实元首会晤共识，积极构建中美建设性战略稳定关系</a><span class="source-date">8/26</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">联合早报：</span><a class="source-link" href="https://www.zaobao.com/news/china/story20260825-9574059" target="_blank" rel="noopener">中美举行1.5轨对话 围绕新时代中美务实合作交流</a><span class="source-date">8/25</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">香港文汇报：</span><a class="source-link" href="https://www.wenweipo.com/a/202608/26/AP6a8dfa4ae4b0c1e500263c3a.html" target="_blank" rel="noopener">中美1.5轨对话 促加强沟通妥善处理分歧</a><span class="source-date">8/26</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">参考消息：</span><a class="source-link" href="https://ckxxapp.ckxx.net/pages/2026/08/25/71221357bb5a43ee838f9ddf47f604d9.html" target="_blank" rel="noopener">美学者文章：美对华政策转向防御性现实主义？</a><span class="source-date">8/25</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">国创会：</span><a class="source-link" href="http://www.ciids.cn/news/7433.html" target="_blank" rel="noopener">贾庆国：中美关系先抑后扬、走向稳定</a><span class="source-date">8/28</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">联合早报：</span><a class="source-link" href="https://www.zaobao.com/forum/views/story20260830-9598845" target="_blank" rel="noopener">伟达：两场战争正改变中美关系</a><span class="source-date">8/30</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 板块2 东亚/东北亚地缘 -->
+    <div class="card" data-tags="地缘政治,半岛局势,东北亚" tabindex="0">
+      <div class="card-header">
+        <div class="section-badge">02</div>
+        <div class="section-info"><span class="section-icon">🏯</span><span class="section-title">东亚 / 东北亚地缘</span></div>
+      </div>
+      <div class="card-body">
+        <div class="item-tags">
+          <span class="tag tag-geopolitics">#地缘政治</span>
+          <span class="tag tag-geopolitics">#半岛局势</span>
+          <span class="tag tag-indopacific">#东北亚</span>
+        </div>
+        <div class="item-title">特朗普对朝示好动摇美韩同盟，东北亚秩序进入"拐点期"</div>
+        <div class="item-summary">
+          8月东北亚地缘格局密集生变。<b>特朗普</b>突然下令将美韩"乙支自由之盾"军演从11天缩短至5天，称其对朝鲜"不恰当且具敌意"，并表达年内与金正恩会面意愿。韩国外长承认事先不知情，分析指此举动摇韩国对美安全信赖，<b>路透社</b>称这一"金正恩豪赌"加深亚洲盟友对美国可靠性的疑虑。<b>日本</b>8月17日宣布向菲律宾派驻E-2D预警机等军事力量，并发布598页新版《防卫白皮书》加速"再军事化"，引发周边高度警惕；<b>王毅</b>在首尔明确警告"绝不能容忍日本军国主义死灰复燃"。俄日矛盾同步升级，<b>普京</b>8月13日首次踏足南千岛群岛（择捉岛）宣示主权。韩国国内"核焦虑"浮现，世宗研究所郑成章等主张韩国自行拥核。<b>旺报</b>社评认为韩国最理性选择仍是"安全靠美国、经济靠中国"，但空间正在收窄。多方研判，美国主导的东北亚双边同盟体系正走到"崩塌与重构的历史拐点"。
+        </div>
+        <div class="sources-block">
+          <div class="sources-block-label">📎 可靠来源（按引用顺序）</div>
+          <div class="sources-list">
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">香港文汇报：</span><a class="source-link" href="https://www.wenweipo.com/a/202608/30/AP6a934034e4b0c1e50026bf69.html" target="_blank" rel="noopener">东北亚8月之变重塑秩序转折点</a><span class="source-date">8/30</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">香港文汇报：</span><a class="source-link" href="https://www.wenweipo.com/a/202608/30/AP6a93401ae4b0c1e50026bf67.html" target="_blank" rel="noopener">新旧矛盾集中释放非偶然</a><span class="source-date">8/30</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">BBC中文：</span><a class="source-link" href="https://www.bbc.com/zhongwen/articles/c74g2d2293zo/simp.amp" target="_blank" rel="noopener">特朗普想与金正恩做朋友，韩国恐要为此付出代价</a><span class="source-date">8月</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">澎湃新闻：</span><a class="source-link" href="https://m.thepaper.cn/detail/33805144" target="_blank" rel="noopener">特朗普将东北亚推向核焦虑？</a><span class="source-date">8月</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">韩国中央日报中文：</span><a class="source-link" href="https://chinese.joins.com/news/articleView.html?idxno=125832" target="_blank" rel="noopener">王毅会见魏圣洛强调"警惕日本右翼势力"</a><span class="source-date">8月</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">旺报：</span><a class="source-link" href="https://www.chinatimes.com/opinion/20260823002069-262102" target="_blank" rel="noopener">王毅推战略自主 台湾需深思</a><span class="source-date">8/23</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 板块3 东南亚与东盟合作 -->
+    <div class="card" data-tags="东盟,区域合作,RCEP" tabindex="0">
+      <div class="card-header">
+        <div class="section-badge">03</div>
+        <div class="section-info"><span class="section-icon">🌏</span><span class="section-title">东南亚与东盟合作</span></div>
+      </div>
+      <div class="card-body">
+        <div class="item-tags">
+          <span class="tag tag-cooperation">#东盟</span>
+          <span class="tag tag-cooperation">#区域合作</span>
+          <span class="tag tag-cooperation">#RCEP</span>
+        </div>
+        <div class="item-title">中国-东盟贸易前7月破5万亿增长20%，COC磋商与蓝色经济成新看点</div>
+        <div class="item-summary">
+          中国-东盟合作延续稳健态势。2026年前7个月双边贸易总值达<b>5.14万亿元、同比增长20%</b>，东盟稳居中国第一大贸易伙伴；双方已连续6年互为最大贸易伙伴。<b>南海行为准则（COC）</b>磋商在7月马尼拉东盟外长会期间取得积极进展，菲律宾作为轮值主席国将于11月主办东亚合作领导人系列会议。经济合作层面，<b>RCEP</b>红利持续释放，中国—东盟自贸区3.0版议定书新增数字经济、绿色经济、供应链互联互通等领域。<b>蓝色经济</b>成为新增长点，8月28日山东威海"中国—东盟蓝色经济大市场"研讨会提出率先构建蓝色经济共同大市场。2026年恰逢中国—东盟<b>全面战略伙伴关系建立5周年</b>、中国—东盟中心成立15周年，中方表示将深挖数字经济、人工智能、绿色经济等新兴合作潜力，推动建设更为紧密的中国—东盟命运共同体。
+        </div>
+        <div class="sources-block">
+          <div class="sources-block-label">📎 可靠来源（按引用顺序）</div>
+          <div class="sources-list">
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">中国—东盟中心：</span><a class="source-link" href="http://www.asean-china-center.org/news/xwdt/2026-08/16478.html" target="_blank" rel="noopener">联合执行委员会第二次工作组会议</a><span class="source-date">8/24</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">中新网：</span><a class="source-link" href="http://www.hi.chinanews.com.cn/hnnew/2026-08-29/745146.html" target="_blank" rel="noopener">释放增长潜能 共筑中国-东盟蓝色经济大市场</a><span class="source-date">8/29</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">中国经济时报：</span><a class="source-link" href="https://jjsb.cet.com.cn/show_544595.html" target="_blank" rel="noopener">加快形成中国与东盟海洋经济合作新格局</a><span class="source-date">8月</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">国研网：</span><a class="source-link" href="https://guoyanwang.clcn.net.cn/webui/DocSummary.aspx?docid=8317246&leafid=14139" target="_blank" rel="noopener">中国—东盟经贸合作的"深度叙事"</a><span class="source-date">8月</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">中国改革网：</span><a class="source-link" href="http://www.chinareform.org.cn/2026/0822/16700117.shtml" target="_blank" rel="noopener">第三次东盟国家议员研讨班专题讲座</a><span class="source-date">8/22</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 板块4 中亚、上合、周边安全 -->
+    <div class="card" data-tags="上合组织,中亚,阿富汗" tabindex="0">
+      <div class="card-header">
+        <div class="section-badge">04</div>
+        <div class="section-info"><span class="section-icon">🏔️</span><span class="section-title">中亚 · 上合 · 周边安全</span></div>
+      </div>
+      <div class="card-body">
+        <div class="item-tags">
+          <span class="tag tag-cooperation">#上合组织</span>
+          <span class="tag tag-indopacific">#中亚</span>
+          <span class="tag tag-geopolitics">#阿富汗</span>
+        </div>
+        <div class="item-title">上合比什凯克峰会9月1日开幕，阿富汗成"大后方头号威胁"</div>
+        <div class="item-summary">
+          上海合作组织成员国元首理事会暨"上合组织+"会议定于<b>9月1日</b>在吉尔吉斯斯坦比什凯克举行，预计<b>17国及6个国际组织</b>代表出席，习近平、普京、莫迪、佩泽希齐扬等元首将与会，联合国秘书长古特雷斯亦将出席。2026年恰逢上合成立<b>25周年</b>，成员国GDP总额已达<b>25万亿美元（约占全球30%）</b>。峰会前夕，<b>阿富汗问题</b>成为焦点：俄国防部长绍伊古在上合防长会上点名阿富汗为"大后方头号威胁"，中俄专门就阿富汗周边安全磋商，但阿富汗未受邀参会。互联互通方面，<b>中吉乌铁路</b>进入实体施工阶段，跨里海国际运输走廊运力快速增长，乌兹别克斯坦希望借机成为区域交通枢纽。俄吉在峰会前举行联合战术演习，有分析认为此举意在应对阿富汗方向安全压力及吉国内选举。整体看，上合正从安全合作向"安全+发展"双轮驱动升级。
+        </div>
+        <div class="sources-block">
+          <div class="sources-block-label">📎 可靠来源（按引用顺序）</div>
+          <div class="sources-list">
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">俄罗斯卫星通讯社：</span><a class="source-link" href="https://sputniknews.cn/20260828/1072967085.html" target="_blank" rel="noopener">专家：上合组织成员国GDP总额达25万亿美元</a><span class="source-date">8/28</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">俄罗斯卫星通讯社：</span><a class="source-link" href="https://big5.sputniknews.cn/20260829/1072975329.html" target="_blank" rel="noopener">上合组织峰会将有17国及6个国际组织代表出席</a><span class="source-date">8/29</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">人民日报：</span><a class="source-link" href="http://paper.people.com.cn/rmrb/pc/content/202608/31/content_30178111.html" target="_blank" rel="noopener">不断释放上合组织合作潜力（国际论坛）</a><span class="source-date">8/31</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">TOLOnews：</span><a class="source-link" href="https://tolonews.com/index.php/node/200646" target="_blank" rel="noopener">India, Central Asia Discuss Afghanistan Ahead of SCO Summit</a><span class="source-date">8月</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">蒙通社：</span><a class="source-link" href="https://montsame.mn/cn/read/408393" target="_blank" rel="noopener">蒙古国总统启程出席上合组织峰会</a><span class="source-date">8月</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 板块5 欧美全球治理、对华研判 -->
+    <div class="card" data-tags="欧美关系,欧盟,对华研判" tabindex="0">
+      <div class="card-header">
+        <div class="section-badge">05</div>
+        <div class="section-info"><span class="section-icon">🏛️</span><span class="section-title">欧美全球治理 · 对华研判</span></div>
+      </div>
+      <div class="card-body">
+        <div class="item-tags">
+          <span class="tag tag-europe">#欧美关系</span>
+          <span class="tag tag-europe">#欧盟</span>
+          <span class="tag tag-thinktank">#对华研判</span>
+        </div>
+        <div class="item-title">欧盟对华"强硬化"与内部分裂并行，简军波警示"过度安全化"陷阱</div>
+        <div class="item-summary">
+          欧盟对华政策进入"政治强硬化"与"内部分裂"并行窗口。<b>德国总理默茨</b>明确将在10月欧盟峰会前敲定对华立场，姿态趋硬；<b>冯德莱恩</b>8月27日放话若中国不兑现贸易承诺将动用贸易防御手段，被中方评论批评为"一边喊对话、一边亮家伙"。但欧盟内部裂痕公开化：<b>斯洛伐克总理菲佐</b>公开主张"别把中国当敌人"，代表中东欧务实派；<b>西班牙</b>力挺上汽2亿欧元费罗尔港建厂项目。<b>复旦大学简军波</b>系统剖析欧盟对华经贸"过度安全化"四大表现——高技术出口管制、歧视性投资审查、《净零工业法案》40%本土自给目标、关键原材料去中国化，警示以安全之名行保护主义之实将损害欧洲自身竞争力。中方已构建"反制、阻断、司法认定"三位一体法律闭环，欧盟稀土永磁体对华依赖度超98%成为关键杠杆。10月欧盟峰会成下半年中欧关系关键节点。
+        </div>
+        <div class="sources-block">
+          <div class="sources-block-label">📎 可靠来源（按引用顺序）</div>
+          <div class="sources-list">
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">新浪财经：</span><a class="source-link" href="https://finance.sina.com.cn/roll/2026-08-29/doc-inipxqmf9522430.shtml" target="_blank" rel="noopener">欧盟真想对话就要拿出对话的姿态</a><span class="source-date">8/29</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">简军波：</span><a class="source-link" href="https://baijiahao.baidu.com/s?id=1874087511969241342" target="_blank" rel="noopener">欧盟对华经贸，需走出过度"安全化"陷阱</a><span class="source-date">8月</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">中国网评：</span><a class="source-link" href="http://www.china.com.cn/opinion/2026-08/18/content_118653250.html" target="_blank" rel="noopener">西班牙的务实选择，给欧洲"上了一课"</a><span class="source-date">8/18</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">搜狐：</span><a class="source-link" href="https://m.sohu.com/a/1069022837_122483014" target="_blank" rel="noopener">默茨10月前敲定对华强硬立场，菲佐唱反调</a><span class="source-date">8月</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">中国网评：</span><a class="source-link" href="https://news.sina.com.cn/zx/gj/2026-08-10/doc-inimvsvi8054242.shtml" target="_blank" rel="noopener">中国反制体系已成熟，美西方别再误判</a><span class="source-date">8/10</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 板块6 全球经济、贸易、产业链 -->
+    <div class="card" data-tags="全球经济,产业链,供应链" tabindex="0">
+      <div class="card-header">
+        <div class="section-badge">06</div>
+        <div class="section-info"><span class="section-icon">📊</span><span class="section-title">全球经济 · 贸易 · 产业链</span></div>
+      </div>
+      <div class="card-body">
+        <div class="item-tags">
+          <span class="tag tag-economy">#全球经济</span>
+          <span class="tag tag-economy">#产业链</span>
+          <span class="tag tag-economy">#供应链</span>
+        </div>
+        <div class="item-title">IMF/世行双双下调全球增长，中东能源冲击与AI需求重塑亚洲供应链</div>
+        <div class="item-summary">
+          <b>IMF</b>在7月更新中下调2026年全球增长至<b>3.0%</b>，<b>世界银行</b>更悲观地预计仅<b>2.5%</b>。<b>世界银行东亚太平洋报告</b>显示该地区增速将从5.0%放缓至4.2%，归因于三重外部冲击：一是<b>中东冲突</b>推高能源成本（天然气一度飙涨90%、原油涨超30%），IMF据此将全球通胀预期上调至4.7%；二是<b>美国关税与贸易碎片化</b>，全球贸易增速从5.0%放缓至3.5%，越南、泰国、柬埔寨受冲击最重；三是<b>AI热潮重塑供应链</b>，越南、马来西亚AI相关出口占GDP比重升至32%和34%。<b>IMF总裁格奥尔基耶娃</b>8月25日表示，全球经济对能源冲击的抵御好于预期，存在"负面供给冲击与AI正面需求冲击的拉锯战"，但警告能源冲击"尚未结束"，部分国家财政恶化与通胀降温停滞构成下行风险。下次增长预测将于10月曼谷IMF/世行年会发布。
+        </div>
+        <div class="sources-block">
+          <div class="sources-block-label">📎 可靠来源（按引用顺序）</div>
+          <div class="sources-list">
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">世界银行：</span><a class="source-link" href="https://www.sgpjbg.com/labelsyh/2026dongyayutaipingyangjingjigengxinbaogao.html" target="_blank" rel="noopener">2026东亚与太平洋经济更新报告</a><span class="source-date">8月</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">Business Times：</span><a class="source-link" href="https://www.businesstimes.com.sg/international/global/imfs-georgieva-says-global-economy-weathering-energy-shock-sees-fiscal-concerns" target="_blank" rel="noopener">IMF's Georgieva says global economy weathering energy shock</a><span class="source-date">8/25</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">DBS/fxverify：</span><a class="source-link" href="https://fxverify.com/zh/news/macroeconomics-stagflation-risks-at-imf-and-world-bank-dbs-48529" target="_blank" rel="noopener">Macroeconomics: Stagflation risks at IMF and World Bank</a><span class="source-date">8月</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">东方财富：</span><a class="source-link" href="https://finance.eastmoney.com/a/202601063609531746.html" target="_blank" rel="noopener">驻外首席展望：2026年世界经济的变与不变</a><span class="source-date">8月</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">Sulut Daily：</span><a class="source-link" href="https://sulutdaily.com/tren-ekonomi-global-melambat-di-2026-shock-energi-timur-tengah-ancam-pertumbuhan-asia/" target="_blank" rel="noopener">Tren Ekonomi Global Melambat di 2026, Shock Energi Timur Tengah</a><span class="source-date">8月</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 板块7 全球治理/一带一路/四大倡议 -->
+    <div class="card" data-tags="全球治理,四大倡议,一带一路" tabindex="0">
+      <div class="card-header">
+        <div class="section-badge">07</div>
+        <div class="section-info"><span class="section-icon">🕊️</span><span class="section-title">全球治理 · 一带一路 · 四大倡议</span></div>
+      </div>
+      <div class="card-body">
+        <div class="item-tags">
+          <span class="tag tag-governance">#全球治理</span>
+          <span class="tag tag-governance">#四大倡议</span>
+          <span class="tag tag-bri">#一带一路</span>
+        </div>
+        <div class="item-title">全球发展倡议五周年再出发，四大全球倡议已成广泛国际共识</div>
+        <div class="item-summary">
+          2026年恰逢<b>全球发展倡议</b>提出5周年。7月28日，全球发展倡议5周年高级别会议在京举行，主题为"再出发、构建可持续发展的美好未来"。五年来，倡议已从中国主张转化为广泛国际共识：<b>130多个国家和国际组织</b>支持参与，近百国签署专项合作文件，"全球发展倡议之友小组"扩员至<b>88国</b>，依托中国—联合国和平与发展基金等平台累计动员超<b>230亿美元</b>，落地1800多个"小而美"项目，惠及120多国。<b>约旦</b>等国在联合声明中赞赏习近平主席提出的<b>全球发展倡议、全球安全倡议、全球文明倡议、全球治理倡议</b>（四大全球倡议）。8月23日中国发布《构建更加公正合理的全球治理体系》白皮书系统阐释全球治理倡议。硬联通方面，中欧班列累计开行超<b>11万列</b>，中吉乌铁路进入攻坚阶段。联合国副秘书长拉特雷肯定全球发展倡议"植根于中国发展实践"。
+        </div>
+        <div class="sources-block">
+          <div class="sources-block-label">📎 可靠来源（按引用顺序）</div>
+          <div class="sources-list">
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">法治日报：</span><a class="source-link" href="http://fazhi.yunnan.cn/system/2026/08/03/034106471.shtml" target="_blank" rel="noopener">从中国主张到形成广泛国际共识 全球发展倡议五年深耕</a><span class="source-date">8/3</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">外交部：</span><a class="source-link" href="https://www.fmprc.gov.cn/zwbd_673032/wjzs/202608/t20260828_12012164.shtml" target="_blank" rel="noopener">傅聪大使在联合国开发署对话会上的发言</a><span class="source-date">8/26</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">外交部：</span><a class="source-link" href="https://www.fmprc.gov.cn/web/zwbd_673032/wjzs/202608/t20260825_12009877.shtml" target="_blank" rel="noopener">驻土库曼斯坦大使署名文章《全球发展倡议——金钥匙》</a><span class="source-date">8/25</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">海南日报：</span><a class="source-link" href="https://news.hndaily.cn/html/2026-08/30/content_58466_19829203.htm" target="_blank" rel="noopener">共享机遇 共谋发展</a><span class="source-date">8/30</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">中拉论坛：</span><a class="source-link" href="http://cn-celac-forum.org.cn/zgtlmjlbgjgx/202608/t20260814_12004061.htm" target="_blank" rel="noopener">驻尼加拉瓜大使署名文章：以全球发展倡议为引领</a><span class="source-date">8/14</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 板块8 本周其他重要观察 -->
+    <div class="card" data-tags="金砖,全球南方,气候变化" tabindex="0">
+      <div class="card-header">
+        <div class="section-badge">08</div>
+        <div class="section-info"><span class="section-icon">🔭</span><span class="section-title">本周其他重要观察</span></div>
+      </div>
+      <div class="card-body">
+        <div class="item-tags">
+          <span class="tag tag-diplomacy">#金砖</span>
+          <span class="tag tag-diplomacy">#全球南方</span>
+          <span class="tag tag-climate">#气候变化</span>
+        </div>
+        <div class="item-title">金砖环境部长会议通过气候韧性路线图，埃及敦促全球金融改革</div>
+        <div class="item-summary">
+          8月18日，<b>第十二次金砖国家环境部长会议</b>在印度新德里举行，通过联合声明及四份成果文件，涵盖可持续生活方式、荒漠化防治、森林火灾防范、社区气候适应等框架。部长们呼吁发达国家提供更多<b>气候资金</b>（以赠款或优惠贷款形式），并明确反对<b>碳边境调节机制（CBAM）</b>等单边保护主义贸易措施。<b>黄润秋</b>视频参会，强调金砖合作为全球南方可持续发展作出良好示范，中国将主办2027年下届会议。同期，<b>埃及外长</b>在联大期间敦促金砖推动<b>全球金融改革</b>，要求增加发展中国家在全球经济决策中的代表性、推动可持续债务结构，并谴责加沙战争、呼吁立即停火。埃及、沙特、阿联酋、阿尔及利亚、土耳其今年已正式加入金砖。本周金砖活动集中体现"全球南方"在气候融资、金融体系改革与中东和平上的共同关切，凸显发展中国家寻求更大全球治理话语权的趋势。
+        </div>
+        <div class="sources-block">
+          <div class="sources-block-label">📎 可靠来源（按引用顺序）</div>
+          <div class="sources-list">
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">印度政府PIB：</span><a class="source-link" href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2300822&reg=48&lang=2" target="_blank" rel="noopener">India calls for People-Centric Environmental Action at 12th BRICS</a><span class="source-date">8/18</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">Uniindia：</span><a class="source-link" href="https://uniindia.com/news/india/environment-brics-roadmap/3947224.html" target="_blank" rel="noopener">BRICS environment ministers adopt joint roadmap on climate resilience</a><span class="source-date">8月</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">生态环境部：</span><a class="source-link" href="https://sljg.mee.gov.cn/hjyw/202608/t20260825_1164450.html" target="_blank" rel="noopener">黄润秋视频出席第十二次金砖国家环境部长会议</a><span class="source-date">8/25</span></div>
+            <div class="source-row"><span class="source-bullet"></span><span class="source-label">Ahram Online：</span><a class="source-link" href="https://english.ahram.org.eg/NewsContentMulti/532533/Multimedia.aspx" target="_blank" rel="noopener">Egypt urges BRICS to push for global financial reform</a><span class="source-date">8/21</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+<footer class="footer">
+  <p>由 <span class="brand">📋 小品每周观察</span> 自动生成 · 资讯来源包括政府官网、顶尖智库、国际组织、权威媒体 · 仅供信息参考</p>
+  <p style="margin-top:4px;">Generated 2026-08-31 · 数据覆盖过去7天</p>
+</footer>
+<script>
+(function() {
+  var filterBar = document.getElementById('tagFilterBar');
+  var cards = document.querySelectorAll('.card');
+  filterBar.addEventListener('click', function(e) {
+    var tagEl = e.target.closest('.tag-filter');
+    if (!tagEl) return;
+    filterBar.querySelectorAll('.tag-filter').forEach(function(t) { t.classList.remove('active'); });
+    tagEl.classList.add('active');
+    var selectedTag = tagEl.dataset.tag;
+    cards.forEach(function(card) {
+      if (selectedTag === 'all') { card.classList.remove('hidden'); }
+      else { var cardTags = (card.dataset.tags || '').split(','); card.classList.toggle('hidden', cardTags.indexOf(selectedTag) === -1); }
+    });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      var visibleCards = Array.from(cards).filter(function(c) { return !c.classList.contains('hidden'); });
+      if (!visibleCards.length) return;
+      var current = document.activeElement;
+      var idx = visibleCards.indexOf(current);
+      if (e.key === 'ArrowRight' && idx < visibleCards.length - 1) { visibleCards[idx + 1].focus(); e.preventDefault(); }
+      else if (e.key === 'ArrowLeft' && idx > 0) { visibleCards[idx - 1].focus(); e.preventDefault(); }
+    }
+  });
+})();
+</script>
+</body>
+</html>
